@@ -1,5 +1,4 @@
 module.exports = function(grunt) {
-<<<<<<< 737c77b1c272b749afeb89c6762523e5861cbd20
 
   // Project configuration.
   grunt.initConfig({
@@ -53,6 +52,5 @@ module.exports = function(grunt) {
   grunt.registerTask('watchTask', 'Log some stuff.', function() {
     grunt.log.write('you made a change in a .js file! I will now lint....').ok();
   });
->>>>>>> updated with grunt
 
 };
