@@ -19,9 +19,15 @@
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
-    "gulp": "^3.9.1",
+<<<<<<< 737c77b1c272b749afeb89c6762523e5861cbd20
     "gulp-git": "^1.9.0",
     "run-sequence": "^1.2.2",
     "yargs": "^4.8.1"
+=======
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "gulp": "^3.9.1",
+    "jshint-stylish": "^2.2.0"
+>>>>>>> updated with grunt
   }
 }
