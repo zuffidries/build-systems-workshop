@@ -1,4 +1,16 @@
-#What is a build system?
+# What is a build system?
+## Ah yes.  It is that time in CS52 to discuss the age old debate of...
+
+![GRUNTVGULP](https://i.ytimg.com/vi/oFu7Wzr1_JA/maxresdefault.jpg)
+
+## But, do they really *need* to be mutually exclusive?
+
+
+![GruntGulpYum!](http://intuitivecompany.com/app/content/uploads/2015/03/gulpGrunt.png)
+
+# No! And we hope that after this fun tutorial that you will begin to understand some underlying differences.
+
+### Yay!! Colaboration!!!!
 
 A build system is a service that executes a specific chain of commands in order to compile and package your code. Generally, the build system takes the files you have written, modifies them, and maps them to an executable.
 
@@ -203,4 +215,28 @@ module.exports = function(grunt) {
   });
 
 };
+```
+
+
+# Sweet!!!!
+
+### But what about Grunt, you may ask?!?!
+
+## Good question!! And...
+
+# YOU ARE IN LUCK BECAUSE IT IS * **GRUNT TIME** *!!!! yay
+
+![FindingDoryGif](https://66.media.tumblr.com/d769bad2c28a0987808ce472d9ccbad4/tumblr_o9d7y3O2fR1uv90soo1_500.gif)
+
+Yay!!!!  The fun really never ends.
+
+
+So... lets DO IT!!!!!!!!!!!
+
+## Steps for Grunt Workshop:
+#### 1. In terminal run:
+```sh
+$ cd build-systems-workshop
+
+$ atom Gruntfile.js
 ```
