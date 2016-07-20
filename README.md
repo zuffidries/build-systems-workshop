@@ -114,125 +114,6 @@ To run individual tasks, use `gulp <task> <othertask>`.
 ![SOpumped](http://stream1.gifsoup.com/view2/4018237/nasa-uproar-o.gif)
 
 
-# Getting Started with Grunt!
-
-#### 1. Install the CLI (Command Line Interface:
-
-```sh
-$ npm install -g grunt-cli
-```
-
-This will put the `grunt` command in your system path, allowing it to be run from any directory.
-
-Note that installing `grunt-cli` does not install the Grunt task runner! The job of the Grunt CLI is simple: run the version of Grunt which has been installed next to a `Gruntfile`. This allows multiple versions of Grunt to be installed on the same machine simultaneously.
-
-#### 2. How the CLI works
-Each time `grunt` is run, it looks for a locally installed Grunt using node's `require()` system. Because of this, you can run `grunt` from any subfolder in your project.
-
-If a locally installed Grunt is found, the CLI loads the local installation of the Grunt library, applies the configuration from your `Gruntfile`, and executes any tasks you've requested for it to run
-
-#### 3. Preparing a new Grunt Project
-
-A typical setup will involve adding two files to your project: `package.json` and the `Gruntfile`.
-
-**package.json**: This file is used by npm to store metadata for projects published as npm modules. You will list grunt and the Grunt plugins your project needs as devDependencies in this file.
-
-**Gruntfile**: This file is named `Gruntfile.js` and is used to configure or define tasks and load Grunt plugins.
-
-
-#### 4. Create a `package.json` file at the root of your project:
-
-
-The `package.json` file belongs in the root directory of your project, next to the `Gruntfile`, and should be committed with your project source. Running `npm install` in the same folder as a `package.json` file will install the correct version of each dependency listed therein.
-
-There are a few ways to create a `package.json` file for your project:
-
-Most **grunt-init** templates will automatically create a project-specific `package.json` file.
-The **npm init** command will create a basic `package.json` file.
-Start with the example below,
-
-
-```sh
-{
-  "name": "my-project-name",
-  "version": "0.1.0",
-  "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-contrib-uglify": "~0.5.0"
-  }
-}
-```
-
-#### 5. Intalling Grunt:
-
-```sh
-$ npm install grunt --save-dev
-
-```
-
-
-#### 6. Install the Jshint plugin!
-
-```sh
-$ npm install grunt-contrib-jshint --save-dev
-```
-
-#### 7. Create a Gruntfile
-
-The `Gruntfile.js` file is a valid JavaScript or CoffeeScript file that belongs in the root directory of your project, next to the `package.json` file, and should be committed with your project source.
-
-A `Gruntfile` is comprised of the following parts:
-
-- The "wrapper" function
-- Project and task configuration
-- Loading Grunt plugins and tasks
-- Custom tasks
-
-
-#### 8. An Example Gruntfile
-```sh
-module.exports = function(grunt) {
-
-  // Project configuration.
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
-      }
-    }
-  });
-
-  // Load the plugin that provides the "uglify" task.
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-
-  // Default task(s).
-  grunt.registerTask('default', ['uglify']);
-
-};
-
-```
-
-#### 9. Defining default tasks
-
-If your project requires tasks not provided by a Grunt plugin, you may define custom tasks right inside the `Gruntfile`. For example, this `Gruntfile` defines a completely custom `default` task that doesn't even utilize task configuration:
-
-```sh
-module.exports = function(grunt) {
-
-  // A very basic default task.
-  grunt.registerTask('default', 'Log some stuff.', function() {
-    grunt.log.write('Logging some stuff...').ok();
-  });
-
-};
-```
 
 
 # Sweet!!!!
@@ -243,6 +124,8 @@ module.exports = function(grunt) {
 
 # YOU ARE IN LUCK BECAUSE IT IS * **GRUNT TIME** *!!!! yay
 
+# Getting Started with Grunt
+
 ![FindingDoryGif](https://66.media.tumblr.com/d769bad2c28a0987808ce472d9ccbad4/tumblr_o9d7y3O2fR1uv90soo1_500.gif)
 
 Yay!!!!  The fun really never ends.
@@ -251,9 +134,132 @@ Yay!!!!  The fun really never ends.
 So... lets DO IT!!!!!!!!!!!
 
 ## Steps for Grunt Workshop:
-#### 1. In terminal run:
+#### 1. Lets get set up!
+In terminal run:
 ```sh
 $ cd build-systems-workshop
 
 $ atom Gruntfile.js
+```
+
+You now have grunt, and created the file that **Grunt** looks for when you run `$ grunt` in terminal. BUT, don't run `$ grunt` yet, as nothing will happen!  So sad :pig_nose:
+
+Lets look at the second command you wrote! `$ atom Gruntfile.js`.  This, as you just might imagine, makes a **Gruntfile**, the aptly named file in which you can control **Grunt**!!
+
+So... on we go!!
+
+#### 2. Lets start the Gruntfile!
+
+So, now that we have created Gruntfile.js, lets do something with it! Lets try and do somthing somewhat useful...
+
+If your ***Gulp*** aspect of the project is running smoothly, what will it do? Well, it *should* make it so that every time you save something in your project that it will commit, push, and generally update your project in its git!
+
+But.. what if you *also* want to make sure that your whole project is linted as well before you update? Not a bad idea! So... lets do it!
+
+First, lets add the following lines
+
+```js
+module.exports = function(grunt) {
+  ///everything else will go in here!!!
+};
+
+```
+Everything in a Gruntfile is to be :hamburger:sandwiched:hamburger: between the curly brackets of this `module.exports` statement.  
+
+#### 3. Lets Initialize!
+
+Now we need to initialize the Gruntfile!
+
+```js
+
+grunt.initConfig({
+  pkg: grunt.file.readJSON('package.json'),
+  watch :{
+    all :{
+      files: ['Gruntfile.js','src//*.js'],
+      tasks: ['jshint']
+    }
+  },
+  jshint: {
+    options: {
+      reporter: require('jshint-stylish')
+    },
+
+    build: ['Gruntfile.js', 'src//*.js']
+  }
+});
+
+```
+
+You will notice `jshint` and `watch`.  These are the the two main modules that we will be using for this **Gruntfile**.  We have talked a bit about `jshint` before in class, but just as a refresher, it is a ***linting*** program, and the one we will use. And, we will use `watch` to, as you just might surmise, *watch* our files for changes!  Just below the `watch :{` clause in the above code, you will notice a line that says `files: ['Gruntfile.js','src//*.js'],`.  What this is doing is telling our `watch` module to watch for changes in either the Gruntfile, **or** anything in our /src folder that is a JavaScript file!
+
+***Super cool!***
+
+![ColbertGif](https://media.giphy.com/media/13hMMtcJiPY2Qg/giphy.gif)
+
+So, using our best friend `npm`...
+
+![npm](https://partners.npmjs.com/weekly/weekly-header-boxes-retina.png)
+
+...lets make sure that we have everything set up in our dependencies!
+
+To get `watch` and `jshint`, put the following commands into your terminal...
+
+```sh
+$ npm install grunt-contrib-jshint --save-dev
+$ npm install grunt-contrib-watch --save-dev
+```
+
+#### 4. LAST STEP!!!!
+
+You are almost there!!!
+
+lets put in these lines of code...
+
+```js
+
+grunt.loadNpmTasks('grunt-contrib-jshint');
+grunt.loadNpmTasks('grunt-contrib-watch');
+
+grunt.registerTask('default',['watch','jshint']);
+
+```
+
+These should be placed ***intermediately*** before closing the brackets from that very first `module.exports`.
+
+So, lets talk about what these three lines do!!
+
+The two that start with `grunt.loadNpmTasks` are a necessary step to load our two modules: `jshint` and `watch`.  The loading here is fairly abstracted, just know that a lot of *behind-the-scenes* stuff is going on to import for **Grunt**.
+
+But, this last line (`grunt.registerTask('default',['watch','jshint']);`) is the most important line of all.  This sets a task!!  In this case we are defining a default task, though this could be anything.  The default task is what is automatically run when you run:
+
+:computer:
+```
+$ grunt
+```
+
+#### 5. Lets make our own task!!!
+
+Now that you know how Grunt works and how to make a Gruntfile, lets design and make our own from scratch!
+
+I am going to walk through the `grunt.registerTask` code structure/formula again to see if that will clarify things...
+
+This is the basic outline:
+
+```js
+grunt.registerTask(/*'TASK_NAME'*/,[/*'TASK_1'*/,/*'TASK_2'*/,/*etc...*/]);
+```
+
+So, as I mentioned above, when you run...
+
+:computer:
+```
+$ grunt
+```
+... the default task will run.  BUT, if you have a task called, let us say, *tastTwo*, then how do you think you would run it?
+
+Like this!!!!
+:computer:
+```
+$ grunt taskTwo
 ```
