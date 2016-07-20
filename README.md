@@ -1,4 +1,7 @@
 # What is a build system?
+
+
+
 ## Ah yes.  It is that time in CS52 to discuss the age old debate of...
 
 ![GRUNTVGULP](https://i.ytimg.com/vi/oFu7Wzr1_JA/maxresdefault.jpg)
@@ -95,6 +98,20 @@ $ gulp
 The default task will run and do nothing.
 
 To run individual tasks, use `gulp <task> <othertask>`.
+
+## How is everyone feeling?
+
+### Confused?
+
+![coufused](http://i.imgur.com/LYjqfnC.gif)
+
+### In awe!?
+
+![awe](http://i258.photobucket.com/albums/hh253/jimifunguzz/doge-so-gif.gif)
+
+### BEYOND EXCITED LIKE THESE AWESOMELY COOL AEROSPACE ENGINEERS FROM NASA!!?!?!?
+
+![SOpumped](http://stream1.gifsoup.com/view2/4018237/nasa-uproar-o.gif)
 
 
 # Getting Started with Grunt!
