@@ -25,7 +25,7 @@ If you didn't use a build system in deploying your code, there would be nothing 
 
 The files that you write, as they stand, cannot actually do anything. The build system that you choose will take in your files, modify them, and spit out a program that the computer can interpret and run.
 
-In addition, some build systems provide some pretty cool functionality – for example, did you notice how we've been able to see changes we've made in our code show up automatically on-screen when we're running it on our local machine? That's because the build systems we've been using support **continuous integration**. In effect, they're rebuilding your code each time you make a change.
+In addition, some build systems provide some pretty cool functionality – for example, did you notice how we've been able to see changes we've made in our code show up automatically on-screen when we're running it on our local machine? That's because the build systems we've been using support **continuous integration and hot reloading**. In effect, they're rebuilding your code each time you make a change.
 
 ### What types of build systems are out there?
 
@@ -33,6 +33,26 @@ In addition, some build systems provide some pretty cool functionality – for e
 
 For a comparison of two types of build systems, we'll use **Grunt** and **Gulp** as examples.
 
+
+#### Gulp
+![gulp-diagram](http://i.imgur.com/B0B77QN.png)
+
+This diagram shows the flow of files through the **Gulp** build system. This is a code-based system, as opposed to a configuration-based system, which means that it does not use any intermediate files – it just adds what it needs into your files and outputs the result.
+
+**Gulp** has only five primary functions:
+
+- **gulp.task(name, fn)** - this creates a task for the system to execute
+- **gulp.run(tasks...)** - runs tasks concurrently
+- **gulp.watch(glob, fn)** - watches for changes to your files (continuous integration!)
+- **gulp.src(glob)** - returns a readable stream
+- **gulp.dest(folder)** - returns a writable stream
+
+#### Grunt
+![grunt-diagram](http://i.imgur.com/oeCGJUS.png)
+
+**Grunt** is a configuration-based system that is represented by the data flow above. As you can see, **Grunt** does use intermediate or ‘temp’ folders. **Grunt** is slower than **Gulp**, and involves a greater number and complexity of commands.
+
+----
 
 #### Gulp
 ![gulp-diagram](http://i.imgur.com/B0B77QN.png)
@@ -76,7 +96,7 @@ $ npm init
 #### 3. Install gulp in your project devDependencies:
 
 ```sh
-$ npm install --save-dev gulp
+$ npm install gulp --save-dev
 ```
 
 #### 4. Create a `gulpfile.js` at the root of your project:
@@ -98,6 +118,133 @@ $ gulp
 The default task will run and do nothing.
 
 To run individual tasks, use `gulp <task> <othertask>`.
+#### Now... Something more exciting: Easier Git pushing!
+
+
+First, we’ll install some extra plugins that you’ll need for this.
+Run the following:
+
+```sh
+$ npm install yargs --save-dev
+$ npm install gulp-git --save-dev
+$ npm install run-sequence --save-dev
+```
+
+This gets the gulp plugins required for our final gulp task.
+-	yargs is a node.js library for parsing optstrings
+-	gulp-git is the git plugin for gulp
+-	run-sequence runs a series of gulp tasks in the specified order
+
+Next, let’s replace the code in `gulpfile.js` so it actually does something useful. Just go ahead and delete everything in there, and we’ll replace it in sections.
+
+##### First add in some variables from the packages we just installed.
+
+```sh
+var gulp = require('gulp');
+var argv = require('yargs').argv;
+var git = require('gulp-git');
+var runSequence = require('run-sequence');
+```
+
+##### Next, we’ll add in intermediate tasks:
+
+These tasks can handle adding and committing local changes, and pushing them to github. On their own they don’t save much time, but they’re necessary intermediate steps to our final product.
+
+ ```sh
+gulp.task('init', function() {
+  console.log(argv.m);
+});
+
+gulp.task('add', function() {
+  console.log('adding...');
+  return gulp.src('.')
+    .pipe(git.add());
+});
+
+gulp.task('commit', function() {
+  console.log('commiting');
+  if (argv.m) {
+    return gulp.src('.')
+      .pipe(git.commit(argv.m));
+  }
+});
+
+gulp.task('push', function(){
+  console.log('pushing...');
+  git.push('origin', 'master', function (err) {
+    if (err) throw err;
+  });
+});
+```
+
+You could run these individually, but it is more useful to be able to run them all together at the same time! So we will add one more gulp task that incorporates the above tasks.
+
+##### Add the final gulp task to the end of `gulpfile.js`:
+
+```sh
+gulp.task('gitsend', function() {
+  runSequence('add', 'commit', 'push');
+});
+```
+
+
+This is what your `gulpfile.js` should look like in the end:
+
+```sh
+var gulp = require('gulp');
+var argv = require('yargs').argv;
+var git = require('gulp-git');
+var runSequence = require('run-sequence');
+
+gulp.task('init', function() {
+  console.log(argv.m);
+});
+
+gulp.task('add', function() {
+  console.log('adding...');
+  return gulp.src('.')
+    .pipe(git.add());
+});
+
+gulp.task('commit', function() {
+  console.log('commiting');
+  if (argv.m) {
+    return gulp.src('.')
+      .pipe(git.commit(argv.m));
+  }
+});
+
+gulp.task('push', function(){
+  console.log('pushing...');
+  git.push('origin', 'master', function (err) {
+    if (err) throw err;
+  });
+});
+
+gulp.task('gitsend', function() {
+  runSequence('add', 'commit', 'push');
+});
+
+```
+
+##### Now run this simple one line command and watch all your git dreams come true!!
+
+
+Type this into your terminal, replacing the commit message:
+
+```sh
+$ gulp gitsend -m “insert your commit message here”
+```
+
+This will run:
+-	git add .
+-	git commit -am [your message]
+-	git push origin master
+
+
+
+Yay! All done with the Gulp tutorial!
+
 
 ## How is everyone feeling?
 
@@ -263,3 +410,11 @@ Like this!!!!
 ```
 $ grunt taskTwo
 ```
+
+#WORKS CITED:
+
+#### 1. https://scotch.io/tutorials/a-simple-guide-to-getting-started-with-grunt
+#### 2. https://medium.com/@preslavrachev/gulp-vs-grunt-why-one-why-the-other-f5d3b398edc4
+#### 3. http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/
+#### 4. http://www.hongkiat.com/blog/gulp-vs-grunt/
+#### 5. http://jaysoo.ca/2014/01/27/gruntjs-vs-gulpjs/
