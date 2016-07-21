@@ -36,7 +36,7 @@ For a comparison of two types of build systems, we'll use **Grunt** and **Gulp**
 
 ## First things first: lets fork!!!
 
-Click the chicken!!!!!!! [:chicken:](https://github.com/BenjaminKCooper/build-systems-workshop)
+If you are somehow magically reading this ReadMe instruction without being on the github page already, click the chicken!!!!!!! [:chicken:](https://github.com/BenjaminKCooper/build-systems-workshop)
 
 Once on github, fork and then `git clone`!
 
