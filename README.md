@@ -34,6 +34,13 @@ In addition, some build systems provide some pretty cool functionality – for e
 For a comparison of two types of build systems, we'll use **Grunt** and **Gulp** as examples.
 
 
+## First things first: lets fork!!!
+
+Click the chicken!!!!!!! [:chicken:](https://github.com/BenjaminKCooper/build-systems-workshop)
+
+Once on github, fork and then `git clone`!
+
+
 #### Gulp
 ![gulp-diagram](http://i.imgur.com/B0B77QN.png)
 
